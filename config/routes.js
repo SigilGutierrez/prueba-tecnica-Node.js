@@ -28,6 +28,8 @@ module.exports.routes = {
     view: 'pages/homepage'
   },
 
+'GET /newJuego': 'JuegoController.create',
+'GET /juegos': 'JuegoController.index',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
