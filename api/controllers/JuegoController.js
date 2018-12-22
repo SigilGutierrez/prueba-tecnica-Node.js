@@ -6,6 +6,15 @@
  */
 
 module.exports = {
+
+        index: function(req, res){
+        Juego.find(function(err, juegos){
+            if (!err) 
+                res.send(juegos);
+            else 
+            res.send(false);
+          })
+        },
   
     create: function(req, res) {
     	
@@ -18,7 +27,7 @@ module.exports = {
 				columna: req.param('columna')        
 			};
 
-        Juego.create(juegoObj, function(err, juego){
+            Juego.create(juegoObj, function(err, juego){
             if(err) {
                 req.session.flash={
                     err: err
@@ -34,68 +43,48 @@ module.exports = {
       
     },
 
-    index: function(req, res){
+    continuarJuego: function(req, res){
        var numJuego=  req.param('numeroJuego');
-        var matrizJuego=[];
         var matrizJuegoC=[];
+        var matrizJuego=[];
+        var MJT=[];
 //precarga de la matriz
 
         Juego.find(function(err, juegos){
                     if (!err) {
-                        if(juegos.numeroJuego =numJuego){
-                            console.log(JSON.stringify(juegos));
-                            var fil = juegos.fila;
-                            var colum = juegos.columna;
-                            console.log("numJuego : "+numJuego +"- "+juegos.fila +"- "+ juegos.columna);
+                        for (var i = 0; i < juegos.length;i++) {
+                        if(juegos[i].numeroJuego =numJuego){
+                            console.log(matrizJuego);
+                            var fil = juegos[i].fila;
+                            var colum = juegos[i].columna;
                                    for (var f = 0 ; f <= 2; f++) {
                                         matrizJuegoC =[];
                                         for (var c = 0; c <= 2; c++) {
-                                            matrizJuegoC[c] = (fil == f && colum ==c)?1:7;
                                             
+                                            if (MJT.length > 0) {
+                                                var oj = MJT[f];
+                                                matrizJuegoC[c] = (fil == f && colum ==c)?1:(oj[c])?oj[c]:7;
+                                            }else{
+                                                 matrizJuegoC[c] = (fil == f && colum ==c)?1:7;
+                                            }
+                                           }
+                                           matrizJuego[f] = matrizJuegoC;
+                                            }
                                         }
-                                    matrizJuego[f] = matrizJuegoC;
+                                        MJT = matrizJuego;
                                     }
-                    return res.send(matrizJuego);
-                }
-                        }else 
+                    //validacion par ver si el jugador gana con el ultimo turno
+
+
+
+
+
+
+
+                                    return res.send(matrizJuego);
+                            }else 
                     return res.send(false);
-                        
-                    
-                    
                   });
     }
+
 }
-
-/*
-                        for (var f = 0 ; f <= 2; f++) {
-                                        matrizJuegoC =[];
-                                        for (var c = 0; c <= 2; c++) {
-                                            matrizJuegoC[c] = f+"-"+c;
-                                            
-                                        }
-                                    matrizJuego[f] = matrizJuegoC;
-                                    }*/
-            
-
-
-// visualizacion final de la matriz
-   /* for (var f = 0 ; f <= 2; f++) {
-        var c= matrizJuego[f];
-        console.log(c[1]);
-    }*/
-/*
-    var c= matrizJuego[fila];
-        console.log(c[columna]);
-            for (var f = 0 ; f <= 2; f++) {
-                                        matrizJuegoC =[];
-                                        for (var c = 0; c <= 2; c++) {
-                                            matrizJuegoC[c] = (fila == f && columna ==c)?1:matrizJuegoC[c];
-                                            
-                                        }
-                                    matrizJuego[f] = matrizJuegoC;
-                                    console.log(matrizJuegoC);
-                                    }
-
-	},*/
-
-

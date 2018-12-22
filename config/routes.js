@@ -29,6 +29,7 @@ module.exports.routes = {
   },
 
 'GET /newJuego': 'JuegoController.create',
+'GET /continuarJuego': 'JuegoController.continuarJuego',
 'GET /juegos': 'JuegoController.index',
   /***************************************************************************
   *                                                                          *
